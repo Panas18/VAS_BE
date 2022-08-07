@@ -73,3 +73,61 @@ export const createPatient = (
     .then((data: any) => res.json(data))
     .catch((err: any) => next(err));
 };
+
+/**
+ * Update Patient
+ * @param req {Request}
+ * @param res {Response}
+ */
+export const updatePatient = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { patientId } = req.params;
+  const {
+    first_name,
+    last_name,
+    dob,
+    ethinicity,
+    gender,
+    email,
+    street,
+    city,
+    state,
+    insurance_id,
+    member_id,
+    insurance_provider,
+  } = req.body;
+
+  patientService
+    .updatePatient({
+      first_name,
+      last_name,
+      dob,
+      ethinicity,
+      gender,
+      email,
+      street,
+      city,
+      state,
+      insurance_id,
+      member_id,
+      insurance_provider,
+      id: +patientId,
+    })
+    .then((data: any) => res.json(data))
+    .catch((err: any) => next(err));
+};
+
+export const deletePatient = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { patientId } = req.params;
+  patientService
+    .deletePatient(+patientId)
+    .then((data) => res.send(data))
+    .catch((err) => next(err));
+};

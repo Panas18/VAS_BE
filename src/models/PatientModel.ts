@@ -1,6 +1,6 @@
 import db from "../db/db";
 import IPatient from "../domain/Patient";
-import { PatientToInsert } from "../domain/Patient";
+import { UpdatedPatient, PatientToInsert } from "../domain/Patient";
 
 class PatientTable {
   public static table = "patient_record";
@@ -45,6 +45,33 @@ class PatientTable {
     ]);
 
     return newPatient;
+  }
+
+  /**
+   * Updates patient
+   * @param patient {IPatient}
+   * @returns updatedPatient {UpdatedPatient}
+   */
+  public static async updatePatient(
+    patient: IPatient
+  ): Promise<UpdatedPatient> {
+    const [updatedPatient] = await db(PatientTable.table)
+      .where({
+        id: patient.id,
+      })
+      .update(patient)
+      .returning(["id", "first_name", "last_name"]);
+
+    return updatedPatient;
+  }
+
+  /**
+   * Deletes patient
+   * @param patientId { number}
+   * @returns {void}
+   */
+  public static async deletePatient(patientId: number): Promise<void> {
+    await db(PatientTable.table).where({ id: patientId }).delete();
   }
 }
 

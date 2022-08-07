@@ -16,4 +16,10 @@ interface Patient {
 
 export type PatientToInsert = Omit<Patient, "id">;
 
+export interface UpdatedPatient {
+  id: number;
+  first_name: string;
+  last_name: string;
+}
+
 export default Patient;

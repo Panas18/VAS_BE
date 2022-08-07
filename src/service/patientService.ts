@@ -1,7 +1,7 @@
 import logger from "../misc/logger";
 import Success from "../domain/Success";
 import IPatient from "../domain/Patient";
-import { PatientToInsert } from "../domain/Patient";
+import { PatientToInsert, UpdatedPatient } from "../domain/Patient";
 import PatientModel from "../models/PatientModel";
 
 /**
@@ -49,5 +49,33 @@ export const createPatient = async (
   return {
     data: createdPatient,
     message: "Patient created successfully",
+  };
+};
+
+/**
+ *
+ * @param patient {IPatient}
+ * @returns {promises<Success<UpdatedPatient>>}
+ */
+export const updatePatient = async (
+  patient: IPatient
+): Promise<Success<UpdatedPatient>> => {
+  const updatedPatient = await PatientModel.updatePatient(patient);
+  logger.info("Patient Updated Successfully");
+
+  return {
+    data: updatedPatient,
+    message: "Patient Updated Successfully",
+  };
+};
+
+export const deletePatient = async (
+  patientId: number
+): Promise<Success<IPatient>> => {
+  await PatientModel.deletePatient(patientId);
+  logger.info("Patient Deleted Successfully");
+
+  return {
+    message: "Patient Deleted Successfully",
   };
 };
